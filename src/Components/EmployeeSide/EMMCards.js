@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import './Cardds.css';
 import Button from 'react-bootstrap/Button';
-import ModalCard from './ModalCard';
 import axios from "axios";
 
 
-function Cardds(props) {
-  const [clickedDelBtn, setClickedDelBtn] = useState(false);
+function EMMCards(props) {
+
   const [clickedCard, setclickedCard] = useState({});
   const [showUpdate, setShowUpdate] = useState(false);
 
@@ -15,15 +14,13 @@ function Cardds(props) {
   const handleclose = () => {
     setShowUpdate(false);
   }
-  const handleupdate = (item) => {
-    setShowUpdate(true);
-    setclickedCard(item);
-  }
-  const handledelete = async (id) => {
-  console.log(id);
-  const serverURL = `${process.env.REACT_APP_SERVER_URL}/CloseAgenttTicket/${id}`
+
+  const handleTake = async (id) => {
+
+  const serverURL = `${process.env.REACT_APP_SERVER_URL}/assignTicketByEmployee/${id}`
   const axiosRes = await axios.patch(serverURL);
-  takeNewArrFromChild(axiosRes.data);
+  setShowUpdate(true);
+  
   }
   const takeNewArrFromChild = (arr) => {
     props.takeNewArr(arr);
@@ -47,32 +44,29 @@ function Cardds(props) {
             className="card-custom-img"
             style={{
               backgroundImage:
-                "url(http://res.cloudinary.com/d3/image/upload/c_scale,q_auto:good,w_1110/trianglify-v1-cs85g_cc5d2i.jpg)"
+                "url(https://img.freepik.com/premium-vector/water-color-texture-background_615199-13.jpg?w=2000)"
             }}
           />
 
           <div className="card-body" style={{ overflowY: "auto" }}>
-            <h4 className="card-title">{props.customerticketid} : {props.tktsubject}</h4>
-            <p className="card-text">  {props.tktdescription}</p>
-
+            <h4 className="card-title">{props.agesubject}</h4>
+            <p className="card-text">  {props.agentdescription}</p>
           </div>
           <div
             className="card-footer"
             style={{ background: "inherit", borderColor: "inherit" }}
           >
-            <Button variant="success" onClick={() => { handleupdate(props) }}>Create ticket</Button>
-            <Button variant="danger" onClick={() => { handledelete(props.TID) }}>Close ticket</Button>
+            <Button variant="success" onClick={() => { handleTake(props.agentticketid) }}>Take Ticket</Button>
           </div>
         </div>
       </div>
-      <ModalCard showFlag={showUpdate} handleclose={handleclose} item={clickedCard} takeNewArrFromChild={takeNewArrFromChild} />        
+      {/* <TackenTicket handleclose={handleclose} takeNewArrFromChild={takeNewArrFromChild} />         */}
     </>
   )
 }
 
 
-export default Cardds;
+export default EMMCards;
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////
 
